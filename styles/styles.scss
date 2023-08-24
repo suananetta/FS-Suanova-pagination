@@ -1,0 +1,162 @@
+
+// palette:
+$dark-violet: #845ec2;
+$light-violet: #9b89b3;
+$pink: #fff6ff;
+$beige: #a178df;
+$white: #ffffff;
+
+@mixin font-setting($weight, $size, $height, $color) {
+    font-family: 'Montserrat', Georgia, 'Times New Roman', Times, serif;
+    font-weight: $weight;
+    font-size: $size;
+    line-height: $height;
+    color: $color;
+}
+
+body {
+    @include font-setting(400, 14px, 24px, $dark-violet);
+    margin: 0 auto;
+    overflow-x: hidden;
+    width: 100%;
+    height: max-content; 
+	background: linear-gradient(-50deg, $dark-violet, $light-violet, $pink, $beige);
+	background-size: 400%;
+	animation: gradient 15s ease infinite;
+}
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+header {
+    padding-top: 30px;
+    text-align: center;
+}
+main {
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+}
+h1{
+    @include font-setting(700, 32px, 24px, $white);
+    background-color: transparent;
+    text-shadow: 1px 1px 15px $dark-violet;
+}
+
+.posts-content {
+    width: 100%;
+}
+.post-card {
+    margin-bottom: 25px;
+    padding: 25px;
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    background-color: $white;
+    border-radius: 25px;
+    box-shadow: 1px 1px 10px $light-violet;
+}
+.post-author {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+        span {
+            width: 20%;
+            @include font-setting(600, 18px, 24px, $dark-violet);
+        }
+}
+.post-author-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+.post-title {
+    padding-top: 15px;
+    text-align: center;
+}
+.post-description {
+    text-indent: 30px; 
+    text-align: justify;
+    @include font-setting(500, 14px, 20px, $dark-violet);
+}
+.post-reactions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+        span {
+            margin-left: 4px;
+            @include font-setting(600, 14px, 18px, $dark-violet);
+        }
+}
+
+@media (min-width: 600px) {
+    .posts-content {
+        width: 80%;
+    }
+    .post-card {
+        padding: 40px;
+    }
+}
+@media (min-width: 1024px) {
+    h1{
+        @include font-setting(700, 48px, 32px, $white);
+    }
+    .post-card {
+        flex-direction: row;
+        padding-left: 20px;
+    }
+    .post-author {
+        margin-right: 20px;
+        flex-direction: column-reverse;
+        justify-content: center;
+        align-items: center;
+            span {
+                width: 60%;
+                text-align: center;
+                @include font-setting(600, 24px, 26px, $dark-violet);
+            }
+    }
+    .post-author-img {
+        width: 200px;
+        height: 200px;
+        border-radius: 0%;
+        margin-bottom: 15px;
+    }
+    .post-title {
+        padding-top: 0px;
+        @include font-setting(700, 24px, 24px, $dark-violet);
+    }
+    .post-description {
+        text-indent: 48px; 
+        @include font-setting(500, 20px, 28px, $dark-violet);
+    }
+    .post-reactions {
+        align-items: flex-end;
+            span {
+                margin-left: 0px;
+                margin-right: 10px;
+                @include font-setting(600, 16px, 18px, $dark-violet);
+            }
+    }
+}
+@media (min-width: 1440px) {
+    h1{
+        @include font-setting(700, 48px, 32px, $pink);
+    }
+
+    .posts-content {
+        width: 60%;
+    }
+    .post-card {
+        padding: 50px;
+    }
+}
