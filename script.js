@@ -8,15 +8,17 @@ const infinteObserver = new IntersectionObserver(
     ([entry], observer) => {
         if(entry.isIntersecting) {
             observer.unobserve(entry.target);
-            response();
+            getContent();
         }
     },
-    { threshold: 1 }
+    { 
+        rootMargin: '50px',
+        threshold: 0.5 
+    }
 )
 
-
 const getPosts = async (limit, skip) => {
-    let response = await fetch(`https://dummyjson.com/posts?limit=${limit}&skip=${skip}&select=title,reactions,userId,body`);
+    let response = await fetch(`https://dummyjson.com/posts?limit=${limit}&skip=${skip}&select=title,reactions,userId,body,tags`);
     let result = response.json();
     return result;
 }
@@ -27,59 +29,54 @@ const getUsers = async () => {
     return result;
 }
 
-async function response() {
-    // let newLimit = requestLimit + 10;
-    // let newSkip =  requestLimit + 10;
-
+async function getContent() {
     let posts = await getPosts(requestLimit, requestSkip);
     let users = await getUsers();
 
-    let postsList = displayPost(posts, users);
-    output.innerHTML = postsList;
-
-    const lastPost = document.querySelector(".post-card:last-child");
-    if(lastPost) infinteObserver.observe(lastPost);
+    displayPosts(posts, users);
 
     requestSkip += requestLimit;
 
-    console.log(posts);
-    console.log(lastPost);
-    console.log(requestLimit);
-    console.log(requestSkip);
+    let lastPost = document.querySelector(".post-card:last-child");
+    if (lastPost) {infinteObserver.observe(lastPost)};
+
+    // console.log(lastPost);
+    // console.log(posts);
+    // console.log(requestLimit);
+    // console.log(requestSkip);
 }
 
-function displayPost(postsData, usersData) {
-    let postCardsList = '';
-
+function displayPosts(postsData, usersData) {
     postsData.posts.forEach(post => {
-        let userInfo = usersData.users
-                                    .map(user => {
-                                        if(user.id === post.userId) return user;
-                                    }).filter(item => item != undefined)[0];
+        let userInfo = usersData.users.filter(user => user.id === post.userId)[0];
 
-        let postCard = `
-            <div class="post-card">
-                <div class="post-author">
-                    <span class="post-author-name">${userInfo? userInfo.firstName : 'Noname'} ${userInfo? userInfo.lastName : 'Anonymous'} </span>
-                    <div class="post-author-img" style="background-image: url(${!userInfo? './images/img-mock.png' 
-                                                                                            : userInfo.image? userInfo.image 
-                                                                                            : './images/img-mock.png'});">
-                    </div>
+        let postCard = document.createElement("div");
+        postCard.className = "post-card";
+
+        postCard.innerHTML = `
+            <div class="post-author">
+                <span class="post-author-name">${userInfo? userInfo.firstName : 'Noname'} ${userInfo? userInfo.lastName : 'Anonymous'} </span>
+                <div class="post-author-img" style="background-image: url(${!userInfo? './images/img-mock.png' 
+                                                                                        : userInfo.image? userInfo.image 
+                                                                                        : './images/img-mock.png'});">
                 </div>
-                <div class="post-body">
-                    <h3 class="post-title">${post.title}</h3>
-                    <p class="post-description">${post.body}</p>
-                    <div class="post-reactions">
+            </div>
+            <div class="post-body">
+                <h3 class="post-title">${post.title}</h3>
+                <div class="post-tags">
+                    <div class="post-tag-item" style="display: ${post.tags[0]? 'block' : 'none'};">${post.tags[0]}</div>
+                    <div class="post-tag-item" style="display: ${post.tags[1]? 'block' : 'none'};">${post.tags[1]}</div>
+                    <div class="post-tag-item" style="display: ${post.tags[2]? 'block' : 'none'};">${post.tags[2]}</div>
+                </div>
+                <p class="post-description">${post.body}</p>
+                <div class="post-reactions">
                     <img src="./images/reactions.svg" alt="reactions">
                     <span>${post.reactions}</span>
                 </div>
-                </div>
             </div>
         `;
-        postCardsList += postCard;
+        output.append(postCard);
     });
-
-    return postCardsList;
 }
 
-document.addEventListener("DOMContentLoaded", response)
+document.addEventListener("DOMContentLoaded", getContent)

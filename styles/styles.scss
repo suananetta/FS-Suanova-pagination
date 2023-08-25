@@ -1,10 +1,4 @@
-
-// palette:
-$dark-violet: #845ec2;
-$light-violet: #9b89b3;
-$pink: #fff6ff;
-$beige: #a178df;
-$white: #ffffff;
+@import 'vars';
 
 @mixin font-setting($weight, $size, $height, $color) {
     font-family: 'Montserrat', Georgia, 'Times New Roman', Times, serif;
@@ -17,11 +11,11 @@ $white: #ffffff;
 body {
     @include font-setting(400, 14px, 24px, $dark-violet);
     margin: 0 auto;
-    overflow-x: hidden;
     width: 100%;
     height: max-content; 
 	background: linear-gradient(-50deg, $dark-violet, $light-violet, $pink, $beige);
 	background-size: 400%;
+    overflow-x: hidden;
 	animation: gradient 15s ease infinite;
 }
 @keyframes gradient {
@@ -46,8 +40,7 @@ main {
 }
 h1{
     @include font-setting(700, 32px, 24px, $white);
-    background-color: transparent;
-    text-shadow: 1px 1px 15px $dark-violet;
+    text-shadow: 1px 1px 20px $dark-violet;
 }
 
 .posts-content {
@@ -83,6 +76,19 @@ h1{
     padding-top: 15px;
     text-align: center;
 }
+.post-tags {
+    display: flex;
+    justify-content: center;
+}
+.post-tag-item {
+    padding: 0 10px;
+    background-color: $dark-violet;
+    border-radius: 15px;
+    @include font-setting(600, 14px, 24px, $pink);   
+}
+.post-tag-item:not(:last-child) {
+    margin-right: 15px;
+}
 .post-description {
     text-indent: 30px; 
     text-align: justify;
@@ -113,6 +119,7 @@ h1{
     .post-card {
         flex-direction: row;
         padding-left: 20px;
+        margin-bottom: 50px;
     }
     .post-author {
         margin-right: 20px;
@@ -136,15 +143,17 @@ h1{
         @include font-setting(700, 24px, 24px, $dark-violet);
     }
     .post-description {
-        text-indent: 48px; 
         @include font-setting(500, 20px, 28px, $dark-violet);
     }
     .post-reactions {
         align-items: flex-end;
             span {
                 margin-left: 0px;
-                margin-right: 10px;
+                margin-right: 3px;
                 @include font-setting(600, 16px, 18px, $dark-violet);
+            }
+            img {
+                transform: scale(-1, 1);
             }
     }
 }
