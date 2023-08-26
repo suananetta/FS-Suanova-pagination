@@ -102,6 +102,9 @@ h1{
             margin-right: 4px;
             @include font-setting(600, 14px, 18px, $dark-violet);
         }
+        img {
+            transform: scale(-1, 1)
+        }
 }
 
 @media (min-width: 600px) {
